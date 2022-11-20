@@ -171,7 +171,7 @@ public class RegistrarUsuario extends javax.swing.JFrame {
 
         jLabel_footer.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel_footer.setText("Creado por Raúl Gómez");
-        getContentPane().add(jLabel_footer, new org.netbeans.lib.awtextra.AbsoluteConstraints(3, 300, 630, -1));
+        getContentPane().add(jLabel_footer, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 320, 630, -1));
         getContentPane().add(jLabel_Wallpaper, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 630, 350));
 
         pack();

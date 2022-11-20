@@ -93,9 +93,9 @@ public class Administrador extends javax.swing.JFrame {
         setIconImage(getIconImage());
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel_NombreUsuario.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        jLabel_NombreUsuario.setFont(new java.awt.Font("Californian FB", 1, 24)); // NOI18N
         jLabel_NombreUsuario.setForeground(new java.awt.Color(102, 102, 255));
-        getContentPane().add(jLabel_NombreUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 20, 80, 20));
+        getContentPane().add(jLabel_NombreUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 20, 180, 30));
 
         jLabel_SaludoUsuario.setFont(new java.awt.Font("Californian FB", 1, 24)); // NOI18N
         jLabel_SaludoUsuario.setForeground(new java.awt.Color(51, 51, 51));
@@ -130,6 +130,11 @@ public class Administrador extends javax.swing.JFrame {
         jButton_Capturista.setBackground(new java.awt.Color(51, 153, 255));
         jButton_Capturista.setForeground(new java.awt.Color(255, 153, 51));
         jButton_Capturista.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/woman_User_2.png"))); // NOI18N
+        jButton_Capturista.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_CapturistaActionPerformed(evt);
+            }
+        });
         getContentPane().add(jButton_Capturista, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 240, 140, 100));
 
         jButton_Tecnico.setBackground(new java.awt.Color(51, 153, 255));
@@ -199,6 +204,11 @@ public class Administrador extends javax.swing.JFrame {
         gestionarUsuarios.setVisible(true);
         
     }//GEN-LAST:event_jButton_GestionarUsuariosActionPerformed
+
+    private void jButton_CapturistaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_CapturistaActionPerformed
+        Capturista capturista = new Capturista();
+        capturista.setVisible(true);
+    }//GEN-LAST:event_jButton_CapturistaActionPerformed
 
     /**
      * @param args the command line arguments
