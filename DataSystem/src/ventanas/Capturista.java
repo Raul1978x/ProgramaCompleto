@@ -126,6 +126,11 @@ public class Capturista extends javax.swing.JFrame {
         jButton_GestionarClientes.setBackground(new java.awt.Color(51, 153, 255));
         jButton_GestionarClientes.setForeground(new java.awt.Color(255, 153, 51));
         jButton_GestionarClientes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/woman&men_User_6mm_ancho.png"))); // NOI18N
+        jButton_GestionarClientes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_GestionarClientesActionPerformed(evt);
+            }
+        });
         getContentPane().add(jButton_GestionarClientes, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 80, 140, 100));
 
         jButton_Imprimir.setBackground(new java.awt.Color(51, 153, 255));
@@ -160,11 +165,18 @@ public class Capturista extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton_RegistrarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_RegistrarClienteActionPerformed
-        
+
         RegistrarClientes registrarClientes = new RegistrarClientes();
         registrarClientes.setVisible(true);
-        
+
     }//GEN-LAST:event_jButton_RegistrarClienteActionPerformed
+
+    private void jButton_GestionarClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_GestionarClientesActionPerformed
+
+        GestionarClientes gestionarClientes = new GestionarClientes();
+        gestionarClientes.setVisible(true);
+//        this.setVisible(false);
+    }//GEN-LAST:event_jButton_GestionarClientesActionPerformed
 
     /**
      * @param args the command line arguments

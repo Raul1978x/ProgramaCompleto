@@ -7,10 +7,12 @@ package ventanas;
 
 import java.sql.*;
 import clases.Conexion;
+import java.awt.Color;
 import java.awt.Image;
 import java.awt.Toolkit;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 import javax.swing.WindowConstants;
 
 /**
@@ -70,7 +72,7 @@ public class RegistrarClientes extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         txt_direccion = new javax.swing.JTextField();
-        jButton_agregar = new javax.swing.JButton();
+        jButton_registrarCliente = new javax.swing.JButton();
         jLabel_footer = new javax.swing.JLabel();
         jLabel_Wallpaper = new javax.swing.JLabel();
 
@@ -134,19 +136,19 @@ public class RegistrarClientes extends javax.swing.JFrame {
         txt_direccion.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         getContentPane().add(txt_direccion, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 260, 210, -1));
 
-        jButton_agregar.setBackground(new java.awt.Color(51, 153, 255));
-        jButton_agregar.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
-        jButton_agregar.setForeground(new java.awt.Color(102, 102, 102));
-        jButton_agregar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/add_registro.png"))); // NOI18N
-        jButton_agregar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton_agregar.setOpaque(false);
-        jButton_agregar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jButton_agregar.addActionListener(new java.awt.event.ActionListener() {
+        jButton_registrarCliente.setBackground(new java.awt.Color(51, 153, 255));
+        jButton_registrarCliente.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        jButton_registrarCliente.setForeground(new java.awt.Color(102, 102, 102));
+        jButton_registrarCliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/add_registro.png"))); // NOI18N
+        jButton_registrarCliente.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton_registrarCliente.setOpaque(false);
+        jButton_registrarCliente.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton_registrarCliente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton_agregarActionPerformed(evt);
+                jButton_registrarClienteActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton_agregar, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 100, 140, 100));
+        getContentPane().add(jButton_registrarCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 100, 140, 100));
 
         jLabel_footer.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel_footer.setText("Creado por Raúl Gómez");
@@ -156,110 +158,72 @@ public class RegistrarClientes extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton_agregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_agregarActionPerformed
+    private void jButton_registrarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_registrarClienteActionPerformed
 
-//        int permisos_cmb, validacion = 0;
-//        String nombre, mail, telefono, username, pass, permiso_string="";
-//
-//        mail = txt_mail.getText().trim();
-//        username = txt_username.getText().trim();
-//        pass = txt_password.getText().trim();
-//        nombre = txt_nombre.getText().trim();
-//        telefono = txt_telefono.getText().trim();
-//
-//        permisos_cmb = cmb_niveles.getSelectedIndex() + 1;
-//
-//        if (mail.equals("")) {
-//            txt_mail.setBackground(Color.RED);
-//            validacion++;
-//        }
-//        if (username.equals("")) {
-//            txt_username.setBackground(Color.RED);
-//            validacion++;
-//        }
-//        if (pass.equals("")) {
-//            txt_password.setBackground(Color.RED);
-//            validacion++;
-//        }
-//        if (nombre.equals("")) {
-//            txt_nombre.setBackground(Color.RED);
-//            validacion++;
-//        }
-//        if (telefono.equals("")) {
-//            txt_telefono.setBackground(Color.RED);
-//            validacion++;
-//        }
-//
-//        switch (permisos_cmb) {
-//            case 1:
-//            permiso_string = "Administrador";
-//            break;
-//            case 2:
-//            permiso_string = "Capturista";
-//            break;
-//            case 3:
-//            permiso_string = "Tecnico";
-//            break;
-//            default:
-//            break;
-//        }
-//        try {
-//            Connection cn = Conexion.conectar();
-//            PreparedStatement pst = cn.prepareStatement("select username from usuarios where username = '" + username + "'");
-//            ResultSet rs = pst.executeQuery();
-//
-//            if (rs.next()) {
-//                txt_username.setBackground(Color.RED);
-//                JOptionPane.showMessageDialog(null, "Nombre de usuario no disponible.");
-//                cn.close();
-//            } else {
-//                cn.close();
-//
-//                if (validacion == 0) {
-//                    try {
-//
-//                        Connection cn2 = Conexion.conectar();
-//
-//                        PreparedStatement pst2 = cn2.prepareStatement(
-//                            "insert into usuarios values (?,?,?,?,?,?,?,?,?)");
-//                        pst2.setInt(1, 0);
-//                        pst2.setString(2, nombre);
-//                        pst2.setString(3, mail);
-//                        pst2.setString(4, telefono);
-//                        pst2.setString(5, username);
-//                        pst2.setString(6, pass);
-//                        pst2.setString(7, permiso_string);
-//                        pst2.setString(8, "Activo");
-//                        pst2.setString(9, user);
-//
-//                        pst2.executeUpdate();
-//                        cn2.close();
-//
-//                        limpiar();
-//
-//                        txt_mail.setBackground(Color.green);
-//                        txt_username.setBackground(Color.green);
-//                        txt_password.setBackground(Color.green);
-//                        txt_nombre.setBackground(Color.green);
-//                        txt_telefono.setBackground(Color.green);
-//
-//                        JOptionPane.showMessageDialog(null, "Registro exitoso.");
-//                        this.dispose();
-//
-//                    } catch (HeadlessException | SQLException e) {
-//                        System.err.println("Error en Registrar usuario. " + e);
-//                        JOptionPane.showMessageDialog(null, "¡¡ERROR, al registrar!!, contacte al administrador.");
-//                    }
-//                } else {
-//                    JOptionPane.showMessageDialog(null, "Debes llenar todos los campos.");
-//                }
-//
-//            }
-//        } catch (HeadlessException | SQLException e) {
-//            System.err.println("Error en validar nombre de usuario. " + e);
-//            JOptionPane.showMessageDialog(null, "¡¡ERROR, al comparar usuario!!, contacte al administrador.");
-//        }
-    }//GEN-LAST:event_jButton_agregarActionPerformed
+        int validacion = 0;
+        String nombre, mail, telefono, direccion;
+
+        nombre = txt_nombre.getText().trim();
+        mail = txt_mail.getText().trim();
+        telefono = txt_telefono.getText().trim();
+        direccion = txt_direccion.getText().trim();
+
+        if (mail.equals("")) {
+            txt_mail.setBackground(Color.RED);
+            validacion++;
+        }
+        if (direccion.equals("")) {
+            txt_direccion.setBackground(Color.RED);
+            validacion++;
+        }
+        if (nombre.equals("")) {
+            txt_nombre.setBackground(Color.RED);
+            validacion++;
+        }
+        if (telefono.equals("")) {
+            txt_telefono.setBackground(Color.RED);
+            validacion++;
+        }
+
+            if (validacion == 0) {
+                if (validacion == 0) {
+                    try {
+
+                        Connection cn = Conexion.conectar();
+
+                        PreparedStatement pst = cn.prepareStatement(
+                            "insert into clientes values (?,?,?,?,?,?)");
+                        pst.setInt(1, 0);
+                        pst.setString(2, nombre);
+                        pst.setString(3, mail);
+                        pst.setString(4, telefono);
+                        pst.setString(5, direccion);
+                        pst.setString(6, user);
+                      
+
+                        pst.executeUpdate();
+                        cn.close();
+
+                        limpiar();
+
+                        txt_nombre.setBackground(Color.green);
+                        txt_mail.setBackground(Color.green);
+                        txt_telefono.setBackground(Color.green);
+                        txt_direccion.setBackground(Color.green);
+
+
+                        JOptionPane.showMessageDialog(null, "Registro exitoso.");
+                        this.dispose();
+
+        } catch ( SQLException e) {
+            System.err.println("Error en registrar cliente. " + e);
+            JOptionPane.showMessageDialog(null, "¡¡ERROR, al registrar cliente!!, contacte al administrador.");
+            }
+        }
+               } else {
+            JOptionPane.showMessageDialog(null, "Debes llenar todos los campos.");
+        }
+    }//GEN-LAST:event_jButton_registrarClienteActionPerformed
 
     /**
      * @param args the command line arguments
@@ -297,7 +261,7 @@ public class RegistrarClientes extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton_agregar;
+    private javax.swing.JButton jButton_registrarCliente;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -311,4 +275,10 @@ public class RegistrarClientes extends javax.swing.JFrame {
     private javax.swing.JTextField txt_nombre;
     private javax.swing.JTextField txt_telefono;
     // End of variables declaration//GEN-END:variables
+public void limpiar(){
+    txt_nombre.setText("");
+    txt_mail.setText("");
+    txt_telefono.setText("");
+    txt_direccion.setText("");
+}
 }

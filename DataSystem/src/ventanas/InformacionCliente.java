@@ -1,0 +1,411 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package ventanas;
+
+import clases.Conexion;
+import java.awt.Color;
+import java.sql.*;
+import javax.swing.JOptionPane;
+
+import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.Chunk;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.FontFactory;
+import com.itextpdf.text.Paragraph;
+import java.awt.Image;
+import java.awt.Toolkit;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JTable;
+import javax.swing.WindowConstants;
+import javax.swing.table.DefaultTableModel;
+import static ventanas.GestionarClientes.IDcliente_update;
+
+/**
+ *
+ * @author Raul Gomez
+ */
+public class InformacionCliente extends javax.swing.JFrame {
+
+    DefaultTableModel model = new DefaultTableModel();
+
+    int IDcliente_update = 0;
+    public static int IDequipo = 0;
+    String user = "";
+
+    /**
+     * Creates new form InformacionCliente
+     */
+    public InformacionCliente() {
+        initComponents();
+        user = Login.user;
+        IDcliente_update = GestionarClientes.IDcliente_update;
+
+        setSize(630, 450);
+        setResizable(false);
+        setLocationRelativeTo(null);
+
+        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+
+        ImageIcon wallpaper = new ImageIcon("src/images/BlancoMetalico.png");
+        Icon icono = new ImageIcon(wallpaper.getImage().getScaledInstance(jLabel_Wallpaper.getWidth(),
+                jLabel_Wallpaper.getHeight(), Image.SCALE_DEFAULT));
+        jLabel_Wallpaper.setIcon(icono);
+        this.repaint();
+
+        try {
+            Connection cn = Conexion.conectar();
+            PreparedStatement pst = cn.prepareStatement(
+                    "select * from clientes where id_cliente = '" + IDcliente_update + "'");
+            ResultSet rs = pst.executeQuery();
+
+            if (rs.next()) {
+                setTitle("Información del cliente " + rs.getString("nombre_cliente") + " - Sesión de " + user);
+                jLabel_Titulo.setText("Información del cliente " + rs.getString("nombre_cliente"));
+
+                txt_nombre.setText(rs.getString("nombre_cliente"));
+                txt_mail.setText(rs.getString("mail_cliente"));
+                txt_telefono.setText(rs.getString("tel_cliente"));
+                txt_direccion.setText(rs.getString("dir_cliente"));
+                txt_ultimaModificacion.setText(rs.getString("ultima_modificacion"));
+            }
+
+            cn.close();
+
+        } catch (SQLException e) {
+            System.err.println("Error en cargar usuario " + e);
+            JOptionPane.showMessageDialog(null, "¡¡Error al cargar!!, contate al administrador.");
+
+        }
+        try {
+            Connection cn2 = Conexion.conectar();
+            PreparedStatement pst2 = cn2.prepareStatement(
+                    "select id_equipo, tipo_equipo,marca,estatus from equipos where id_cliente = '" + IDcliente_update + "'");
+            ResultSet rs = pst2.executeQuery();
+
+            jTable_equipos = new JTable(model);
+            jScrollPane_equipos.setViewportView(jTable_equipos);
+
+            model.addColumn("ID Equipo");
+            model.addColumn("Tipo de Equipo");
+            model.addColumn("Marca");
+            model.addColumn("Estatus");
+
+            while (rs.next()) {
+                Object[] fila = new Object[4];
+                for (int i = 0; i < 4; i++) {
+                    fila[i] = rs.getObject(i + 1);
+                }
+                model.addRow(fila);
+            }
+            cn2.close();
+        } catch (SQLException e) {
+            System.err.println("Error en el llenado de la tabla equipos");
+        }
+
+        jTable_equipos.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int fila_point = jTable_equipos.rowAtPoint(e.getPoint());
+                int columna_point = 0;
+
+                if (fila_point > -1) {
+                    IDequipo = (int) model.getValueAt(fila_point, columna_point);
+                    InformacionCliente informacion_cliente = new InformacionCliente();
+                    informacion_cliente.setVisible(true);
+                } else {
+                }
+            }
+        });
+
+    }
+
+    @Override
+    public Image getIconImage() {
+        Image redValue = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("images/iconN.png"));
+        return redValue;
+    }
+
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        jLabel_Titulo = new javax.swing.JLabel();
+        jLabel_nombre = new javax.swing.JLabel();
+        txt_nombre = new javax.swing.JTextField();
+        jLabel_nombre1 = new javax.swing.JLabel();
+        txt_mail = new javax.swing.JTextField();
+        jLabel_nombre2 = new javax.swing.JLabel();
+        txt_telefono = new javax.swing.JTextField();
+        jButton_Registrar = new javax.swing.JButton();
+        jButton_Actualizar = new javax.swing.JButton();
+        jLabel_footer = new javax.swing.JLabel();
+        jLabel_direccion = new javax.swing.JLabel();
+        txt_direccion = new javax.swing.JTextField();
+        jLabel_UltimaModificacion = new javax.swing.JLabel();
+        txt_ultimaModificacion = new javax.swing.JTextField();
+        jScrollPane_equipos = new javax.swing.JScrollPane();
+        jTable_equipos = new javax.swing.JTable();
+        jButton_ImprimirReporte = new javax.swing.JButton();
+        jLabel_Wallpaper = new javax.swing.JLabel();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setIconImage(getIconImage());
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel_Titulo.setFont(new java.awt.Font("Californian FB", 1, 24)); // NOI18N
+        jLabel_Titulo.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel_Titulo.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel_Titulo.setText("Información de Cliente");
+        getContentPane().add(jLabel_Titulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 610, -1));
+
+        jLabel_nombre.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel_nombre.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel_nombre.setText("Nombre:");
+        getContentPane().add(jLabel_nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, -1, -1));
+
+        txt_nombre.setBackground(new java.awt.Color(51, 153, 255));
+        txt_nombre.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        txt_nombre.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txt_nombre.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        getContentPane().add(txt_nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 70, 210, -1));
+
+        jLabel_nombre1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel_nombre1.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel_nombre1.setText("email");
+        getContentPane().add(jLabel_nombre1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 110, -1, -1));
+
+        txt_mail.setBackground(new java.awt.Color(51, 153, 255));
+        txt_mail.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        txt_mail.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txt_mail.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        getContentPane().add(txt_mail, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 130, 210, -1));
+
+        jLabel_nombre2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel_nombre2.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel_nombre2.setText("Telefono:");
+        getContentPane().add(jLabel_nombre2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 170, -1, -1));
+
+        txt_telefono.setBackground(new java.awt.Color(51, 153, 255));
+        txt_telefono.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        txt_telefono.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txt_telefono.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        getContentPane().add(txt_telefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 190, 210, -1));
+
+        jButton_Registrar.setBorder(null);
+        jButton_Registrar.setLabel("Registrar Equipo");
+        jButton_Registrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_RegistrarActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton_Registrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 270, 210, 35));
+
+        jButton_Actualizar.setBorder(null);
+        jButton_Actualizar.setLabel("Actualizar");
+        jButton_Actualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_ActualizarActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton_Actualizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 320, 210, 35));
+
+        jLabel_footer.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel_footer.setText("Creado por Raúl Gómez");
+        getContentPane().add(jLabel_footer, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 420, 630, -1));
+
+        jLabel_direccion.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel_direccion.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel_direccion.setText("Dirección:");
+        getContentPane().add(jLabel_direccion, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 230, -1, -1));
+
+        txt_direccion.setBackground(new java.awt.Color(51, 153, 255));
+        txt_direccion.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        txt_direccion.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txt_direccion.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        getContentPane().add(txt_direccion, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 250, 210, -1));
+
+        jLabel_UltimaModificacion.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel_UltimaModificacion.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel_UltimaModificacion.setText("Última modificación:");
+        getContentPane().add(jLabel_UltimaModificacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 290, -1, -1));
+
+        txt_ultimaModificacion.setBackground(new java.awt.Color(51, 153, 255));
+        txt_ultimaModificacion.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        txt_ultimaModificacion.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txt_ultimaModificacion.setBorder(null);
+        txt_ultimaModificacion.setEnabled(false);
+        getContentPane().add(txt_ultimaModificacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 310, 210, 20));
+
+        jTable_equipos.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane_equipos.setViewportView(jTable_equipos);
+
+        getContentPane().add(jScrollPane_equipos, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 70, 380, 180));
+
+        jButton_ImprimirReporte.setBackground(new java.awt.Color(51, 153, 255));
+        jButton_ImprimirReporte.setForeground(new java.awt.Color(255, 153, 51));
+        jButton_ImprimirReporte.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/impresora.png"))); // NOI18N
+        getContentPane().add(jButton_ImprimirReporte, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 260, 140, 100));
+        getContentPane().add(jLabel_Wallpaper, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 630, 450));
+
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton_RegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_RegistrarActionPerformed
+
+        RegistrarEquipo registrarEquipo = new RegistrarEquipo();
+        registrarEquipo.setVisible(true);
+    }//GEN-LAST:event_jButton_RegistrarActionPerformed
+
+    private void jButton_ActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_ActualizarActionPerformed
+
+        int validacion = 0;
+        String nombre, mail, telefono, direccion;
+
+        nombre = txt_nombre.getText().trim();
+        mail = txt_mail.getText().trim();
+        telefono = txt_telefono.getText().trim();
+        direccion = txt_direccion.getText().trim();
+
+        if (nombre.equals("")) {
+            txt_nombre.setBackground(Color.red);
+            validacion++;
+        }
+        if (mail.equals("")) {
+            txt_mail.setBackground(Color.red);
+            validacion++;
+        }
+        if (telefono.equals("")) {
+            txt_telefono.setBackground(Color.red);
+            validacion++;
+        }
+        if (direccion.equals("")) {
+            txt_direccion.setBackground(Color.red);
+            validacion++;
+        }
+
+        if (validacion == 0) {
+            try {
+                Connection cn = Conexion.conectar();
+                PreparedStatement pst = cn.prepareStatement(
+                        "update clientes set nombre_cliente = ?, mail_cliente = ?, tel_cliente = ?, dir_cliente = ?, ultima_modificacion = ? "
+                        + "where id_cliente = '" + IDcliente_update + "'");
+
+                pst.setString(1, nombre);
+                pst.setString(2, mail);
+                pst.setString(3, telefono);
+                pst.setString(4, direccion);
+                pst.setString(5, user);
+                
+                pst.executeUpdate();
+                cn.close();
+                
+                limpiar();
+                
+                txt_nombre.setBackground(Color.green);
+                txt_mail.setBackground(Color.green);
+                txt_telefono.setBackground(Color.green);
+                txt_direccion.setBackground(Color.green);
+                txt_ultimaModificacion.setText(user);
+                
+                JOptionPane.showMessageDialog(null, "Actualización correcta.");
+                this.dispose();
+                
+            } catch (SQLException e) {
+                System.err.println("Error al actualizar al cliente");
+                JOptionPane.showMessageDialog(null, "¡¡Error al actualizar cliente!!, contacte al administrador.");
+            }
+
+        } else {
+            JOptionPane.showMessageDialog(null, "Debes de llenar todos los campos.");
+        }
+
+    }//GEN-LAST:event_jButton_ActualizarActionPerformed
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(InformacionCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(InformacionCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(InformacionCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(InformacionCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new InformacionCliente().setVisible(true);
+            }
+        });
+    }
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton_Actualizar;
+    private javax.swing.JButton jButton_ImprimirReporte;
+    private javax.swing.JButton jButton_Registrar;
+    private javax.swing.JLabel jLabel_Titulo;
+    private javax.swing.JLabel jLabel_UltimaModificacion;
+    private javax.swing.JLabel jLabel_Wallpaper;
+    private javax.swing.JLabel jLabel_direccion;
+    private javax.swing.JLabel jLabel_footer;
+    private javax.swing.JLabel jLabel_nombre;
+    private javax.swing.JLabel jLabel_nombre1;
+    private javax.swing.JLabel jLabel_nombre2;
+    private javax.swing.JScrollPane jScrollPane_equipos;
+    private javax.swing.JTable jTable_equipos;
+    private javax.swing.JTextField txt_direccion;
+    private javax.swing.JTextField txt_mail;
+    private javax.swing.JTextField txt_nombre;
+    private javax.swing.JTextField txt_telefono;
+    private javax.swing.JTextField txt_ultimaModificacion;
+    // End of variables declaration//GEN-END:variables
+
+    public void limpiar(){
+    txt_nombre.setText("");
+    txt_mail.setText("");
+    txt_telefono.setText("");
+    txt_direccion.setText("");
+}
+}
+
